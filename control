@@ -1,0 +1,9 @@
+Package: com.skrypton.vegito
+Name: Vegito
+Version: 1.0.0
+Architecture: iphoneos-arm
+Description: A simple system-wide video wallpaper tweak
+Maintainer: skrypton
+Author: skrypton
+Section: Tweaks
+Depends: mobilesubstrate (>= 0.9.5000), preferenceloader (>= 2.2.3), com.mrgcgamer.libgcuniversal
