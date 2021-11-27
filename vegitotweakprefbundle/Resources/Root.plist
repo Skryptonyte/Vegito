@@ -24,31 +24,6 @@
 			<key>PostNotification</key>
 			<string>com.skrypton.vegito/preferences.changed</string>
 		</dict>
-				
-		<!--
-
-		<dict>
-			<key>cell</key>
-			<string>PSStaticTextCell</string>
-			<key>key</key>
-			<string>url</string>
-			<key>label</key>
-			<string>No Video File Selected</string>
-		</dict>
-		<dict>
-			<key>cell</key>
-			<string>PSButtonCell</string>
-
-			<key>label</key>
-			<string>Pick Video</string>
-			<key>isDestructive</key>
-			<true/>
-			<key>action</key>
-			<string>doFilePick</string>
-			
-		</dict>
-		-->
-		
 		<dict>
 			<key>cell</key>
 			<string>PSLinkCell</string>
