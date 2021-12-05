@@ -35,8 +35,19 @@ int __isOSVersionAtLeast(int major, int minor, int patch) {
 @end
 
 @interface SBBacklightController : NSObject
+-(void)_notifyObserversDidAnimateToFactor:(float)arg1 source:(long long)arg2 ;
 @end
 
+
+// Power Monitor
+ @interface SBWorkspace: NSObject
+ @end
+
+ @interface SBMainWorkspace : SBWorkspace
+ -(void)powerMonitorSystemWillSleep:(id)arg1 ;
+ @end
+
+ 
 static NSString * nsDomainString = @"com.skrypton.vegito";
 static NSString * nsNotificationString = @"com.skrypton.vegito/preferences.changed";
 
@@ -62,13 +73,11 @@ static void notificationCallback(CFNotificationCenterRef center, void *observer,
 -(void) viewDidLayoutSubviews
 {
 	%orig;
+	NSURL *url = [GcImagePickerUtils videoURLFromDefaults:@"com.skrypton.vegito" withKey:@"video"];
+
 	// Set up AVPlayer objects with looping.
-	if (!playerCreated && enabled)
+	if (!playerCreated && enabled && url)
 	{
-
-		NSURL *url = [GcImagePickerUtils videoURLFromDefaults:@"com.skrypton.vegito" withKey:@"video"];
-
-
 		// Create AV objects to set up a looping video
 		AVPlayerItem* playerItem = [AVPlayerItem playerItemWithURL:url];
 		AVQueuePlayer* player = [AVQueuePlayer queuePlayerWithItems:@[playerItem]];
@@ -106,40 +115,35 @@ static void notificationCallback(CFNotificationCenterRef center, void *observer,
 {												   // Admittedly a more aggressive method of conserving power. The resume from paused state will be noticeable to users.
 	%orig;
 
-		if (apv && newDisplay != nil && powerLevel >= 2) 
+	if (apv)
+	{
+		if (newDisplay != nil && powerLevel >= 2) 
 		{
 			[apv pause];
 		}
 		else{
 			[apv play];
 		}
-}
-
-%end
-
-
-%hook SBWallpaperController
--(void) _updateScreenBlanked       // Pause when screen is off
-{
-	%orig;
-	if (powerLevel >= 1)
-	{
-		if (apv){
-		[apv pause];
-		}
 	}
 }
+
 %end
+
 %hook SBBacklightController
--(void)_deferredScreenUnblankDone   // Seamlessly resume when phone is woken up
+-(void)_notifyObserversDidAnimateToFactor:(float)arg1 source:(long long)arg2   // Pause or play depending on screen backlight state
 {
 	%orig;
 	if (apv)
 	{
-		[apv play];
+		if (powerLevel >= 1 && arg1 == 0.0)
+			[apv pause];
+		else
+			[apv play];
 	}
 }
+
 %end
+
 
 %hook _SBFakeBlurView
 
