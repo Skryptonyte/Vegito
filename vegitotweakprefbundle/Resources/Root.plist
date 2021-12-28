@@ -40,7 +40,7 @@
 			<key>usesVideos</key>
 			<true/>
 			<key>videoQuality</key>
-			<integer>1</integer>
+			<integer>0</integer>
 		</dict>
 
 		<dict>
