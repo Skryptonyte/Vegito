@@ -118,12 +118,9 @@ static void notificationCallback(CFNotificationCenterRef center, void *observer,
 	if (apv)
 	{
 		if (newDisplay != nil && powerLevel >= 2) 
-		{
 			[apv pause];
-		}
-		else{
+		else
 			[apv play];
-		}
 	}
 }
 
